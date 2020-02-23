@@ -387,4 +387,29 @@ final class SingleStringValueValidatorTest extends TestCase
             }
         }
     }
+    public function testValidateJson()
+    {
+        $tests = [
+            [ 'data' => '', 'expected' => false, ],
+            [ 'data' => '[]', 'expected' => true, ],
+            [ 'data' => ']', 'expected' => false, ],
+            [ 'data' => '["foo","bar","baz"]', 'expected' => true, ],
+            [ 'data' => '["foo":"bar","baz"]', 'expected' => false, ],
+            [ 'data' => '{"foo":"bar","baz"}', 'expected' => false, ],
+            [ 'data' => '{"foo":"bar","baz":"qux"}', 'expected' => true, ],
+            [ 'data' => '{"foo":"bar","baz":[1,2,3]}', 'expected' => true, ],
+        ];
+
+        foreach($tests as $test){
+            $data = $test['data'];
+            $expected = $test['expected'];
+            if ($expected){
+                $this->assertTrue((new SingleStringValueValidator($data))->validateJson(), "data: {$data}");
+            }
+            else{
+                $this->assertFalse((new SingleStringValueValidator($data))->validateJson(), "data: {$data}");
+            }
+        }
+
+    }
 }

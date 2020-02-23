@@ -199,7 +199,6 @@ class SingleStringValueValidator
         return $this->validateInteger() && intval($this->value) <= $max;
     }
 
-
     /**
      * Validate array element
      *
@@ -210,5 +209,16 @@ class SingleStringValueValidator
     public function validateInArray(array $values) : bool
     {
         return in_array($this->value, $values);
+    }
+
+    /**
+     * Validate JSON
+     *
+     * @return bool
+     */
+    public function validateJson() : bool
+    {
+        json_decode($this->value);
+        return json_last_error() === JSON_ERROR_NONE;
     }
 }
