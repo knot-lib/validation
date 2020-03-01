@@ -5,9 +5,7 @@ namespace KnotLib\Validation\Test;
 
 use PHPUnit\Framework\TestCase;
 
-use KnotLib\Validation\SingleStringValueValidator;
-
-final class SingleStringValueValidatorTest extends TestCase
+final class AbstractSingleStringValueValidatorTest extends TestCase
 {
     public function testValidateEmpty()
     {

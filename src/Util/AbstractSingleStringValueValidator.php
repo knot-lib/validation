@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace KnotLib\Validation;
+namespace KnotLib\Validation\Util;
 
-class SingleStringValueValidator
+abstract class AbstractSingleStringValueValidator
 {
     const ALPHABET = '/^[a-zA-Z]+$/';
     const LOWERCASE_ALPHA = '/^[a-z]+$/';
@@ -14,28 +14,12 @@ class SingleStringValueValidator
     const REGEX_EMAIL = '/^[a-zA-Z0-9.!#$%&\'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/';
     const REGEX_URL = '/^(http|https|ftp):\/\/([A-Z0-9][A-Z0-9_-]*(?:\.[A-Z0-9][A-Z0-9_-]*)+):?(\d+)?\/?/i';
 
-    /** @var string */
-    private $value;
-
-    /**
-     * SingleValueValidator constructor.
-     *
-     * @param string $value
-     */
-    public function __construct(string $value)
-    {
-        $this->value = $value;
-    }
-
     /**
      * Returns value
      *
      * @return string
      */
-    protected function getValue() : string
-    {
-        return $this->value;
-    }
+    abstract public function getValue() : string;
 
     /**
      * Validate empty
@@ -44,7 +28,7 @@ class SingleStringValueValidator
      */
     public function validateEmpty() : bool
     {
-        return empty($this->value);
+        return empty($this->getValue());
     }
 
     /**
@@ -54,7 +38,7 @@ class SingleStringValueValidator
      */
     public function validateNotEmpty() : bool
     {
-        return !empty($this->value);
+        return !empty($this->getValue());
     }
 
     /**
@@ -64,7 +48,7 @@ class SingleStringValueValidator
      */
     public function validateAlphabet() : bool
     {
-        return preg_match(self::ALPHABET, $this->value) === 1;
+        return preg_match(self::ALPHABET, $this->getValue()) === 1;
     }
 
     /**
@@ -74,7 +58,7 @@ class SingleStringValueValidator
      */
     public function validateLowerCaseAlpha() : bool
     {
-        return preg_match(self::LOWERCASE_ALPHA, $this->value) === 1;
+        return preg_match(self::LOWERCASE_ALPHA, $this->getValue()) === 1;
     }
 
     /**
@@ -84,7 +68,7 @@ class SingleStringValueValidator
      */
     public function validateUpperCaseAlpha() : bool
     {
-        return preg_match(self::UPPERCASE_ALPHA, $this->value) === 1;
+        return preg_match(self::UPPERCASE_ALPHA, $this->getValue()) === 1;
     }
 
     /**
@@ -94,7 +78,7 @@ class SingleStringValueValidator
      */
     public function validateNumber() : bool
     {
-        return preg_match(self::NUMBER, $this->value) === 1;
+        return preg_match(self::NUMBER, $this->getValue()) === 1;
     }
 
     /**
@@ -104,7 +88,7 @@ class SingleStringValueValidator
      */
     public function validateAlphaNum() : bool
     {
-        return preg_match(self::ALPHANUM, $this->value) === 1;
+        return preg_match(self::ALPHANUM, $this->getValue()) === 1;
     }
 
     /**
@@ -114,7 +98,7 @@ class SingleStringValueValidator
      */
     public function validateEmail() : bool
     {
-        return preg_match(self::REGEX_EMAIL, $this->value) === 1;
+        return preg_match(self::REGEX_EMAIL, $this->getValue()) === 1;
     }
 
     /**
@@ -124,7 +108,7 @@ class SingleStringValueValidator
      */
     public function validateURL() : bool
     {
-        return preg_match(self::REGEX_URL, $this->value) === 1;
+        return preg_match(self::REGEX_URL, $this->getValue()) === 1;
     }
 
     /**
@@ -137,7 +121,7 @@ class SingleStringValueValidator
      */
     public function validateMaxStringLength(int $max_length, bool $multibyte = true) : bool
     {
-        return $multibyte ? (mb_strlen($this->value) <= $max_length) : (strlen($this->value) <= $max_length);
+        return $multibyte ? (mb_strlen($this->getValue()) <= $max_length) : (strlen($this->getValue()) <= $max_length);
     }
 
     /**
@@ -150,7 +134,7 @@ class SingleStringValueValidator
      */
     public function validateMinStringLength(int $min_length, bool $multibyte = true) : bool
     {
-        return $multibyte ? (mb_strlen($this->value) >= $min_length) : (strlen($this->value) >= $min_length);
+        return $multibyte ? (mb_strlen($this->getValue()) >= $min_length) : (strlen($this->getValue()) >= $min_length);
     }
 
     /**
@@ -162,7 +146,7 @@ class SingleStringValueValidator
      */
     public function validateRegEx(string $regex) : bool
     {
-        return preg_match($regex, $this->value) === 1;
+        return preg_match($regex, $this->getValue()) === 1;
     }
 
     /**
@@ -172,7 +156,7 @@ class SingleStringValueValidator
      */
     public function validateInteger() : bool
     {
-        return preg_match(self::INTVAL, $this->value) === 1;
+        return preg_match(self::INTVAL, $this->getValue()) === 1;
     }
 
     /**
@@ -184,7 +168,7 @@ class SingleStringValueValidator
      */
     public function validateMinInteger(int $min) : bool
     {
-        return $this->validateInteger() && intval($this->value) >= $min;
+        return $this->validateInteger() && intval($this->getValue()) >= $min;
     }
 
     /**
@@ -196,7 +180,7 @@ class SingleStringValueValidator
      */
     public function validateMaxInteger(int $max) : bool
     {
-        return $this->validateInteger() && intval($this->value) <= $max;
+        return $this->validateInteger() && intval($this->getValue()) <= $max;
     }
 
     /**
@@ -208,7 +192,7 @@ class SingleStringValueValidator
      */
     public function validateInArray(array $values) : bool
     {
-        return in_array($this->value, $values);
+        return in_array($this->getValue(), $values);
     }
 
     /**
@@ -218,7 +202,7 @@ class SingleStringValueValidator
      */
     public function validateJson() : bool
     {
-        json_decode($this->value);
+        json_decode($this->getValue());
         return json_last_error() === JSON_ERROR_NONE;
     }
 }

@@ -19,6 +19,9 @@ final class ValidationError implements JsonSerializable
     /** @var string */
     private $field_code;
 
+    /** @var string */
+    private $field_value;
+
     /**
      * ValidationError constructor.
      *
@@ -26,13 +29,15 @@ final class ValidationError implements JsonSerializable
      * @param string $message
      * @param string $disp_field
      * @param string $field_code
+     * @param string $field_value
      */
-    public function __construct(int $error_code, string $message, string $disp_field, string $field_code)
+    public function __construct(int $error_code, string $message, string $disp_field, string $field_code, string $field_value)
     {
         $this->error_code = $error_code;
         $this->message = $message;
         $this->disp_field = $disp_field;
         $this->field_code = $field_code;
+        $this->field_value = $field_value;
     }
 
     /**
@@ -76,6 +81,16 @@ final class ValidationError implements JsonSerializable
     }
 
     /**
+     * Get field code
+     *
+     * @return string
+     */
+    public function getFieldValue() : string
+    {
+        return $this->field_value;
+    }
+
+    /**
      * Json serialize
      *
      * @return mixed|void
@@ -87,6 +102,7 @@ final class ValidationError implements JsonSerializable
             'message' => $this->message,
             'disp_field' => $this->disp_field,
             'field_code' => $this->field_code,
+            'field_value' => $this->field_value,
         ];
     }
 
