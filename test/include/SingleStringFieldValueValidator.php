@@ -23,7 +23,7 @@ final class SingleStringFieldValueValidator extends AbstractSingleStringFieldVal
     /**
      * @return string
      */
-    public function getValue(): string
+    public function getFieldValue(): string
     {
         return $this->data;
     }
