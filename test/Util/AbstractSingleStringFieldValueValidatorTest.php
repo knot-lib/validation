@@ -29,6 +29,13 @@ final class AbstractSingleStringFieldValueValidatorTest extends TestCase
         };
     }
 
+    public function testGetFieldCode()
+    {
+        $field_value = new SingleStringFieldValueValidator('age', '23', $this->provider);
+
+        $this->assertEquals('age', $field_value->getFieldCode());
+    }
+
     public function testValidateEmpty()
     {
         $tests = [

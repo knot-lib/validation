@@ -50,6 +50,14 @@ abstract class AbstractSingleStringFieldValueValidator
     public abstract function getFieldDisplayName(string $field_code) : string;
 
     /**
+     * @return string
+     */
+    public function getFieldCode() : string
+    {
+        return $this->field_code;
+    }
+
+    /**
      * Make validation error
      *
      * @param int $error_code
