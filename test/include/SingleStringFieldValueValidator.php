@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace KnotLib\Validation\Test;
 
-use KnotLib\Validation\Util\AbstractSingleStringValueValidator;
+use KnotLib\Validation\Util\AbstractSingleStringFieldValueValidator;
 
-final class SingleStringValueValidator extends AbstractSingleStringValueValidator
+final class SingleStringFieldValueValidator extends AbstractSingleStringFieldValueValidator
 {
     /** @var string */
     private $data;

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace KnotLib\Validation\Util;
 
-abstract class AbstractSingleStringValueValidator
+abstract class AbstractSingleStringFieldValueValidator
 {
     const ALPHABET = '/^[a-zA-Z]+$/';
     const LOWERCASE_ALPHA = '/^[a-z]+$/';
@@ -19,7 +19,7 @@ abstract class AbstractSingleStringValueValidator
      *
      * @return string
      */
-    abstract public function getValue() : string;
+    abstract public function getFieldValue() : string;
 
     /**
      * Validate empty
@@ -28,7 +28,7 @@ abstract class AbstractSingleStringValueValidator
      */
     public function validateEmpty() : bool
     {
-        return empty($this->getValue());
+        return empty($this->getFieldValue());
     }
 
     /**
@@ -38,7 +38,7 @@ abstract class AbstractSingleStringValueValidator
      */
     public function validateNotEmpty() : bool
     {
-        return !empty($this->getValue());
+        return !empty($this->getFieldValue());
     }
 
     /**
@@ -48,7 +48,7 @@ abstract class AbstractSingleStringValueValidator
      */
     public function validateAlphabet() : bool
     {
-        return preg_match(self::ALPHABET, $this->getValue()) === 1;
+        return preg_match(self::ALPHABET, $this->getFieldValue()) === 1;
     }
 
     /**
@@ -58,7 +58,7 @@ abstract class AbstractSingleStringValueValidator
      */
     public function validateLowerCaseAlpha() : bool
     {
-        return preg_match(self::LOWERCASE_ALPHA, $this->getValue()) === 1;
+        return preg_match(self::LOWERCASE_ALPHA, $this->getFieldValue()) === 1;
     }
 
     /**
@@ -68,7 +68,7 @@ abstract class AbstractSingleStringValueValidator
      */
     public function validateUpperCaseAlpha() : bool
     {
-        return preg_match(self::UPPERCASE_ALPHA, $this->getValue()) === 1;
+        return preg_match(self::UPPERCASE_ALPHA, $this->getFieldValue()) === 1;
     }
 
     /**
@@ -78,7 +78,7 @@ abstract class AbstractSingleStringValueValidator
      */
     public function validateNumber() : bool
     {
-        return preg_match(self::NUMBER, $this->getValue()) === 1;
+        return preg_match(self::NUMBER, $this->getFieldValue()) === 1;
     }
 
     /**
@@ -88,7 +88,7 @@ abstract class AbstractSingleStringValueValidator
      */
     public function validateAlphaNum() : bool
     {
-        return preg_match(self::ALPHANUM, $this->getValue()) === 1;
+        return preg_match(self::ALPHANUM, $this->getFieldValue()) === 1;
     }
 
     /**
@@ -98,7 +98,7 @@ abstract class AbstractSingleStringValueValidator
      */
     public function validateEmail() : bool
     {
-        return preg_match(self::REGEX_EMAIL, $this->getValue()) === 1;
+        return preg_match(self::REGEX_EMAIL, $this->getFieldValue()) === 1;
     }
 
     /**
@@ -108,7 +108,7 @@ abstract class AbstractSingleStringValueValidator
      */
     public function validateURL() : bool
     {
-        return preg_match(self::REGEX_URL, $this->getValue()) === 1;
+        return preg_match(self::REGEX_URL, $this->getFieldValue()) === 1;
     }
 
     /**
@@ -121,7 +121,7 @@ abstract class AbstractSingleStringValueValidator
      */
     public function validateMaxStringLength(int $max_length, bool $multibyte = true) : bool
     {
-        return $multibyte ? (mb_strlen($this->getValue()) <= $max_length) : (strlen($this->getValue()) <= $max_length);
+        return $multibyte ? (mb_strlen($this->getFieldValue()) <= $max_length) : (strlen($this->getFieldValue()) <= $max_length);
     }
 
     /**
@@ -134,7 +134,7 @@ abstract class AbstractSingleStringValueValidator
      */
     public function validateMinStringLength(int $min_length, bool $multibyte = true) : bool
     {
-        return $multibyte ? (mb_strlen($this->getValue()) >= $min_length) : (strlen($this->getValue()) >= $min_length);
+        return $multibyte ? (mb_strlen($this->getFieldValue()) >= $min_length) : (strlen($this->getFieldValue()) >= $min_length);
     }
 
     /**
@@ -146,7 +146,7 @@ abstract class AbstractSingleStringValueValidator
      */
     public function validateRegEx(string $regex) : bool
     {
-        return preg_match($regex, $this->getValue()) === 1;
+        return preg_match($regex, $this->getFieldValue()) === 1;
     }
 
     /**
@@ -156,7 +156,7 @@ abstract class AbstractSingleStringValueValidator
      */
     public function validateInteger() : bool
     {
-        return preg_match(self::INTVAL, $this->getValue()) === 1;
+        return preg_match(self::INTVAL, $this->getFieldValue()) === 1;
     }
 
     /**
@@ -168,7 +168,7 @@ abstract class AbstractSingleStringValueValidator
      */
     public function validateMinInteger(int $min) : bool
     {
-        return $this->validateInteger() && intval($this->getValue()) >= $min;
+        return $this->validateInteger() && intval($this->getFieldValue()) >= $min;
     }
 
     /**
@@ -180,7 +180,7 @@ abstract class AbstractSingleStringValueValidator
      */
     public function validateMaxInteger(int $max) : bool
     {
-        return $this->validateInteger() && intval($this->getValue()) <= $max;
+        return $this->validateInteger() && intval($this->getFieldValue()) <= $max;
     }
 
     /**
@@ -192,7 +192,7 @@ abstract class AbstractSingleStringValueValidator
      */
     public function validateInArray(array $values) : bool
     {
-        return in_array($this->getValue(), $values);
+        return in_array($this->getFieldValue(), $values);
     }
 
     /**
@@ -202,7 +202,7 @@ abstract class AbstractSingleStringValueValidator
      */
     public function validateJson() : bool
     {
-        json_decode($this->getValue());
+        json_decode($this->getFieldValue());
         return json_last_error() === JSON_ERROR_NONE;
     }
 }
