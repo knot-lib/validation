@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace KnotLib\Validation\Util;
 
+use KnotLib\Validation\ErrorMessageProviderInterface;
+use KnotLib\Validation\ValidationError;
+
 abstract class AbstractSingleStringFieldValueValidator
 {
     const ALPHABET = '/^[a-zA-Z]+$/';
@@ -14,12 +17,55 @@ abstract class AbstractSingleStringFieldValueValidator
     const REGEX_EMAIL = '/^[a-zA-Z0-9.!#$%&\'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/';
     const REGEX_URL = '/^(http|https|ftp):\/\/([A-Z0-9][A-Z0-9_-]*(?:\.[A-Z0-9][A-Z0-9_-]*)+):?(\d+)?\/?/i';
 
+    /** @var string */
+    private $field_code;
+
+    /** @var string */
+    private $field_value;
+
+    /** @var ErrorMessageProviderInterface */
+    private $provider;
+
     /**
-     * Returns value
+     * AbstractSingleStringFieldValueValidator constructor.
+     *
+     * @param string $field_code
+     * @param string $field_value
+     * @param ErrorMessageProviderInterface $provider
+     */
+    public function __construct(string $field_code, string $field_value, ErrorMessageProviderInterface $provider)
+    {
+        $this->field_code = $field_code;
+        $this->field_value = $field_value;
+        $this->provider = $provider;
+    }
+
+    /**
+     * Returns field display name
+     *
+     * @param string $field_code
      *
      * @return string
      */
-    abstract public function getFieldValue() : string;
+    public abstract function getFieldDisplayName(string $field_code) : string;
+
+    /**
+     * Make validation error
+     *
+     * @param int $error_code
+     *
+     * @return ValidationError
+     */
+    public function makeError(int $error_code) : ValidationError
+    {
+        return new ValidationError(
+            $error_code,
+            $this->provider->getErrorMessage($error_code),
+            $this->getFieldDisplayName($this->field_code),
+            $this->field_code,
+            $this->field_value
+        );
+    }
 
     /**
      * Validate empty
@@ -28,7 +74,7 @@ abstract class AbstractSingleStringFieldValueValidator
      */
     public function validateEmpty() : bool
     {
-        return empty($this->getFieldValue());
+        return empty($this->field_value);
     }
 
     /**
@@ -38,7 +84,7 @@ abstract class AbstractSingleStringFieldValueValidator
      */
     public function validateNotEmpty() : bool
     {
-        return !empty($this->getFieldValue());
+        return !empty($this->field_value);
     }
 
     /**
@@ -48,7 +94,7 @@ abstract class AbstractSingleStringFieldValueValidator
      */
     public function validateAlphabet() : bool
     {
-        return preg_match(self::ALPHABET, $this->getFieldValue()) === 1;
+        return preg_match(self::ALPHABET, $this->field_value) === 1;
     }
 
     /**
@@ -58,7 +104,7 @@ abstract class AbstractSingleStringFieldValueValidator
      */
     public function validateLowerCaseAlpha() : bool
     {
-        return preg_match(self::LOWERCASE_ALPHA, $this->getFieldValue()) === 1;
+        return preg_match(self::LOWERCASE_ALPHA, $this->field_value) === 1;
     }
 
     /**
@@ -68,7 +114,7 @@ abstract class AbstractSingleStringFieldValueValidator
      */
     public function validateUpperCaseAlpha() : bool
     {
-        return preg_match(self::UPPERCASE_ALPHA, $this->getFieldValue()) === 1;
+        return preg_match(self::UPPERCASE_ALPHA, $this->field_value) === 1;
     }
 
     /**
@@ -78,7 +124,7 @@ abstract class AbstractSingleStringFieldValueValidator
      */
     public function validateNumber() : bool
     {
-        return preg_match(self::NUMBER, $this->getFieldValue()) === 1;
+        return preg_match(self::NUMBER, $this->field_value) === 1;
     }
 
     /**
@@ -88,7 +134,7 @@ abstract class AbstractSingleStringFieldValueValidator
      */
     public function validateAlphaNum() : bool
     {
-        return preg_match(self::ALPHANUM, $this->getFieldValue()) === 1;
+        return preg_match(self::ALPHANUM, $this->field_value) === 1;
     }
 
     /**
@@ -98,7 +144,7 @@ abstract class AbstractSingleStringFieldValueValidator
      */
     public function validateEmail() : bool
     {
-        return preg_match(self::REGEX_EMAIL, $this->getFieldValue()) === 1;
+        return preg_match(self::REGEX_EMAIL, $this->field_value) === 1;
     }
 
     /**
@@ -108,7 +154,7 @@ abstract class AbstractSingleStringFieldValueValidator
      */
     public function validateURL() : bool
     {
-        return preg_match(self::REGEX_URL, $this->getFieldValue()) === 1;
+        return preg_match(self::REGEX_URL, $this->field_value) === 1;
     }
 
     /**
@@ -121,7 +167,7 @@ abstract class AbstractSingleStringFieldValueValidator
      */
     public function validateMaxStringLength(int $max_length, bool $multibyte = true) : bool
     {
-        return $multibyte ? (mb_strlen($this->getFieldValue()) <= $max_length) : (strlen($this->getFieldValue()) <= $max_length);
+        return $multibyte ? (mb_strlen($this->field_value) <= $max_length) : (strlen($this->field_value) <= $max_length);
     }
 
     /**
@@ -134,7 +180,7 @@ abstract class AbstractSingleStringFieldValueValidator
      */
     public function validateMinStringLength(int $min_length, bool $multibyte = true) : bool
     {
-        return $multibyte ? (mb_strlen($this->getFieldValue()) >= $min_length) : (strlen($this->getFieldValue()) >= $min_length);
+        return $multibyte ? (mb_strlen($this->field_value) >= $min_length) : (strlen($this->field_value) >= $min_length);
     }
 
     /**
@@ -146,7 +192,7 @@ abstract class AbstractSingleStringFieldValueValidator
      */
     public function validateRegEx(string $regex) : bool
     {
-        return preg_match($regex, $this->getFieldValue()) === 1;
+        return preg_match($regex, $this->field_value) === 1;
     }
 
     /**
@@ -156,7 +202,7 @@ abstract class AbstractSingleStringFieldValueValidator
      */
     public function validateInteger() : bool
     {
-        return preg_match(self::INTVAL, $this->getFieldValue()) === 1;
+        return preg_match(self::INTVAL, $this->field_value) === 1;
     }
 
     /**
@@ -168,7 +214,7 @@ abstract class AbstractSingleStringFieldValueValidator
      */
     public function validateMinInteger(int $min) : bool
     {
-        return $this->validateInteger() && intval($this->getFieldValue()) >= $min;
+        return $this->validateInteger() && intval($this->field_value) >= $min;
     }
 
     /**
@@ -180,7 +226,7 @@ abstract class AbstractSingleStringFieldValueValidator
      */
     public function validateMaxInteger(int $max) : bool
     {
-        return $this->validateInteger() && intval($this->getFieldValue()) <= $max;
+        return $this->validateInteger() && intval($this->field_value) <= $max;
     }
 
     /**
@@ -192,7 +238,7 @@ abstract class AbstractSingleStringFieldValueValidator
      */
     public function validateInArray(array $values) : bool
     {
-        return in_array($this->getFieldValue(), $values);
+        return in_array($this->field_value, $values);
     }
 
     /**
@@ -202,7 +248,7 @@ abstract class AbstractSingleStringFieldValueValidator
      */
     public function validateJson() : bool
     {
-        json_decode($this->getFieldValue());
+        json_decode($this->field_value);
         return json_last_error() === JSON_ERROR_NONE;
     }
 }

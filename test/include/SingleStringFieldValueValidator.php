@@ -7,24 +7,12 @@ use KnotLib\Validation\Util\AbstractSingleStringFieldValueValidator;
 
 final class SingleStringFieldValueValidator extends AbstractSingleStringFieldValueValidator
 {
-    /** @var string */
-    private $data;
-
-    /**
-     * SingleStringValueValidator constructor.
-     *
-     * @param string $data
-     */
-    public function __construct(string $data)
+    public function getFieldDisplayName(string $field_code): string
     {
-        $this->data = $data;
+        $map = [
+            'age' => 'years of age',
+        ];
+        return $map[$field_code] ?? "";
     }
 
-    /**
-     * @return string
-     */
-    public function getFieldValue(): string
-    {
-        return $this->data;
-    }
 }
