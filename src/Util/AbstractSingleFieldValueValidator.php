@@ -102,7 +102,7 @@ abstract class AbstractSingleFieldValueValidator
      */
     public function validateAlphabet() : bool
     {
-        return preg_match(self::ALPHABET, $this->field_value) === 1;
+        return  $this->validateString() && preg_match(self::ALPHABET, $this->field_value) === 1;
     }
 
     /**
@@ -112,7 +112,7 @@ abstract class AbstractSingleFieldValueValidator
      */
     public function validateLowerCaseAlpha() : bool
     {
-        return preg_match(self::LOWERCASE_ALPHA, $this->field_value) === 1;
+        return  $this->validateString() && preg_match(self::LOWERCASE_ALPHA, $this->field_value) === 1;
     }
 
     /**
@@ -122,7 +122,7 @@ abstract class AbstractSingleFieldValueValidator
      */
     public function validateUpperCaseAlpha() : bool
     {
-        return preg_match(self::UPPERCASE_ALPHA, $this->field_value) === 1;
+        return  $this->validateString() && preg_match(self::UPPERCASE_ALPHA, $this->field_value) === 1;
     }
 
     /**
@@ -132,7 +132,7 @@ abstract class AbstractSingleFieldValueValidator
      */
     public function validateNumber() : bool
     {
-        return preg_match(self::NUMBER, $this->field_value) === 1;
+        return $this->validateInteger() || $this->validateString() && preg_match(self::NUMBER, $this->field_value) === 1;
     }
 
     /**
@@ -142,7 +142,7 @@ abstract class AbstractSingleFieldValueValidator
      */
     public function validateAlphaNum() : bool
     {
-        return preg_match(self::ALPHANUM, $this->field_value) === 1;
+        return $this->validateString() && preg_match(self::ALPHANUM, $this->field_value) === 1;
     }
 
     /**
@@ -152,7 +152,7 @@ abstract class AbstractSingleFieldValueValidator
      */
     public function validateEmail() : bool
     {
-        return preg_match(self::REGEX_EMAIL, $this->field_value) === 1;
+        return $this->validateString() && preg_match(self::REGEX_EMAIL, $this->field_value) === 1;
     }
 
     /**
@@ -162,7 +162,7 @@ abstract class AbstractSingleFieldValueValidator
      */
     public function validateURL() : bool
     {
-        return preg_match(self::REGEX_URL, $this->field_value) === 1;
+        return $this->validateString() && preg_match(self::REGEX_URL, $this->field_value) === 1;
     }
 
     /**
@@ -175,6 +175,9 @@ abstract class AbstractSingleFieldValueValidator
      */
     public function validateMaxStringLength(int $max_length, bool $multibyte = true) : bool
     {
+        if (!$this->validateString()){
+            return false;
+        }
         return $multibyte ? (mb_strlen($this->field_value) <= $max_length) : (strlen($this->field_value) <= $max_length);
     }
 
@@ -188,6 +191,9 @@ abstract class AbstractSingleFieldValueValidator
      */
     public function validateMinStringLength(int $min_length, bool $multibyte = true) : bool
     {
+        if (!$this->validateString()){
+            return false;
+        }
         return $multibyte ? (mb_strlen($this->field_value) >= $min_length) : (strlen($this->field_value) >= $min_length);
     }
 
@@ -200,7 +206,7 @@ abstract class AbstractSingleFieldValueValidator
      */
     public function validateRegEx(string $regex) : bool
     {
-        return preg_match($regex, $this->field_value) === 1;
+        return $this->validateString() && preg_match($regex, $this->field_value) === 1;
     }
 
     /**
@@ -210,7 +216,7 @@ abstract class AbstractSingleFieldValueValidator
      */
     public function validateInteger() : bool
     {
-        return preg_match(self::INTVAL, $this->field_value) === 1;
+        return is_int($this->field_value) || $this->validateString() && preg_match(self::INTVAL, $this->field_value) === 1;
     }
 
     /**
@@ -256,7 +262,30 @@ abstract class AbstractSingleFieldValueValidator
      */
     public function validateJson() : bool
     {
+        if (!$this->validateString()){
+            return false;
+        }
         json_decode($this->field_value);
         return json_last_error() === JSON_ERROR_NONE;
+    }
+
+    /**
+     * Validate array
+     *
+     * @return bool
+     */
+    public function validateArray() : bool
+    {
+        return is_array($this->field_value);
+    }
+
+    /**
+     * Validate string
+     *
+     * @return bool
+     */
+    public function validateString() : bool
+    {
+        return is_string($this->field_value);
     }
 }

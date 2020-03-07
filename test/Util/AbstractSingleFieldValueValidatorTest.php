@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection DuplicatedCode */
 declare(strict_types=1);
 
 namespace KnotLib\Validation\Test;
@@ -435,6 +435,54 @@ final class AbstractSingleFieldValueValidatorTest extends TestCase
             }
             else{
                 $this->assertFalse((new SingleFieldValueValidator('',$data, $this->provider))->validateJson(), "data: {$data}");
+            }
+        }
+    }
+    public function testValidateArray()
+    {
+        $tests = [
+            [ 'data' => '', 'expected' => false, ],
+            [ 'data' => [], 'expected' => true, ],
+            [ 'data' => ']', 'expected' => false, ],
+            [ 'data' => '["foo","bar","baz"]', 'expected' => false, ],
+            [ 'data' => 2, 'expected' => false, ],
+            [ 'data' => -0.1, 'expected' => false, ],
+            [ 'data' => 'Hello, World!', 'expected' => false, ],
+            [ 'data' => null, 'expected' => false, ],
+        ];
+
+        foreach($tests as $test){
+            $data = $test['data'];
+            $expected = $test['expected'];
+            if ($expected){
+                $this->assertTrue((new SingleFieldValueValidator('',$data, $this->provider))->validateArray(), 'data:' . print_r($data, true));
+            }
+            else{
+                $this->assertFalse((new SingleFieldValueValidator('',$data, $this->provider))->validateArray(), 'data:' . print_r($data, true));
+            }
+        }
+    }
+    public function testValidateString()
+    {
+        $tests = [
+            [ 'data' => '', 'expected' => true, ],
+            [ 'data' => [], 'expected' => false, ],
+            [ 'data' => ']', 'expected' => true, ],
+            [ 'data' => '["foo","bar","baz"]', 'expected' => true, ],
+            [ 'data' => 2, 'expected' => false, ],
+            [ 'data' => -0.1, 'expected' => false, ],
+            [ 'data' => 'Hello, World!', 'expected' => true, ],
+            [ 'data' => null, 'expected' => false, ],
+        ];
+
+        foreach($tests as $test){
+            $data = $test['data'];
+            $expected = $test['expected'];
+            if ($expected){
+                $this->assertTrue((new SingleFieldValueValidator('',$data, $this->provider))->validateString(), 'data:' . print_r($data, true));
+            }
+            else{
+                $this->assertFalse((new SingleFieldValueValidator('',$data, $this->provider))->validateString(), 'data:' . print_r($data, true));
             }
         }
     }
