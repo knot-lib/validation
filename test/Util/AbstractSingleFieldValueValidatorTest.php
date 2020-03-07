@@ -7,7 +7,7 @@ use KnotLib\Validation\ErrorMessageProviderInterface;
 use KnotLib\Validation\ValidationError;
 use PHPUnit\Framework\TestCase;
 
-final class AbstractSingleStringFieldValueValidatorTest extends TestCase
+final class AbstractSingleFieldValueValidatorTest extends TestCase
 {
     /** @var ErrorMessageProviderInterface */
     private $provider;
@@ -31,7 +31,7 @@ final class AbstractSingleStringFieldValueValidatorTest extends TestCase
 
     public function testGetFieldCode()
     {
-        $field_value = new SingleStringFieldValueValidator('age', '23', $this->provider);
+        $field_value = new SingleFieldValueValidator('age', '23', $this->provider);
 
         $this->assertEquals('age', $field_value->getFieldCode());
     }
@@ -49,10 +49,10 @@ final class AbstractSingleStringFieldValueValidatorTest extends TestCase
             $data = $test['data'];
             $expected = $test['expected'];
             if ($expected){
-                $this->assertTrue((new SingleStringFieldValueValidator('',$data, $this->provider))->validateEmpty(), "data: {$data}");
+                $this->assertTrue((new SingleFieldValueValidator('',$data, $this->provider))->validateEmpty(), "data: {$data}");
             }
             else{
-                $this->assertFalse((new SingleStringFieldValueValidator('',$data, $this->provider))->validateEmpty(), "data: {$data}");
+                $this->assertFalse((new SingleFieldValueValidator('',$data, $this->provider))->validateEmpty(), "data: {$data}");
             }
         }
     }
@@ -69,10 +69,10 @@ final class AbstractSingleStringFieldValueValidatorTest extends TestCase
             $data = $test['data'];
             $expected = $test['expected'];
             if ($expected){
-                $this->assertTrue((new SingleStringFieldValueValidator('',$data, $this->provider))->validateNotEmpty(), "data: {$data}");
+                $this->assertTrue((new SingleFieldValueValidator('',$data, $this->provider))->validateNotEmpty(), "data: {$data}");
             }
             else{
-                $this->assertFalse((new SingleStringFieldValueValidator('',$data, $this->provider))->validateNotEmpty(), "data: {$data}");
+                $this->assertFalse((new SingleFieldValueValidator('',$data, $this->provider))->validateNotEmpty(), "data: {$data}");
             }
         }
     }
@@ -88,10 +88,10 @@ final class AbstractSingleStringFieldValueValidatorTest extends TestCase
             $data = $test['data'];
             $expected = $test['expected'];
             if ($expected){
-                $this->assertTrue((new SingleStringFieldValueValidator('',$data, $this->provider))->validateAlphabet(), "data: {$data}");
+                $this->assertTrue((new SingleFieldValueValidator('',$data, $this->provider))->validateAlphabet(), "data: {$data}");
             }
             else{
-                $this->assertFalse((new SingleStringFieldValueValidator('',$data, $this->provider))->validateAlphabet(), "data: {$data}");
+                $this->assertFalse((new SingleFieldValueValidator('',$data, $this->provider))->validateAlphabet(), "data: {$data}");
             }
         }
     }
@@ -107,10 +107,10 @@ final class AbstractSingleStringFieldValueValidatorTest extends TestCase
             $data = $test['data'];
             $expected = $test['expected'];
             if ($expected){
-                $this->assertTrue((new SingleStringFieldValueValidator('',$data, $this->provider))->validateLowerCaseAlpha(), "data: {$data}");
+                $this->assertTrue((new SingleFieldValueValidator('',$data, $this->provider))->validateLowerCaseAlpha(), "data: {$data}");
             }
             else{
-                $this->assertFalse((new SingleStringFieldValueValidator('',$data, $this->provider))->validateLowerCaseAlpha(), "data: {$data}");
+                $this->assertFalse((new SingleFieldValueValidator('',$data, $this->provider))->validateLowerCaseAlpha(), "data: {$data}");
             }
         }
     }
@@ -127,10 +127,10 @@ final class AbstractSingleStringFieldValueValidatorTest extends TestCase
             $data = $test['data'];
             $expected = $test['expected'];
             if ($expected){
-                $this->assertTrue((new SingleStringFieldValueValidator('',$data, $this->provider))->validateUpperCaseAlpha(), "data: {$data}");
+                $this->assertTrue((new SingleFieldValueValidator('',$data, $this->provider))->validateUpperCaseAlpha(), "data: {$data}");
             }
             else{
-                $this->assertFalse((new SingleStringFieldValueValidator('',$data, $this->provider))->validateUpperCaseAlpha(), "data: {$data}");
+                $this->assertFalse((new SingleFieldValueValidator('',$data, $this->provider))->validateUpperCaseAlpha(), "data: {$data}");
             }
         }
     }
@@ -147,10 +147,10 @@ final class AbstractSingleStringFieldValueValidatorTest extends TestCase
             $data = $test['data'];
             $expected = $test['expected'];
             if ($expected){
-                $this->assertTrue((new SingleStringFieldValueValidator('',$data, $this->provider))->validateNumber(), "data: {$data}");
+                $this->assertTrue((new SingleFieldValueValidator('',$data, $this->provider))->validateNumber(), "data: {$data}");
             }
             else{
-                $this->assertFalse((new SingleStringFieldValueValidator('',$data, $this->provider))->validateNumber(), "data: {$data}");
+                $this->assertFalse((new SingleFieldValueValidator('',$data, $this->provider))->validateNumber(), "data: {$data}");
             }
         }
     }
@@ -170,10 +170,10 @@ final class AbstractSingleStringFieldValueValidatorTest extends TestCase
             $data = $test['data'];
             $expected = $test['expected'];
             if ($expected){
-                $this->assertTrue((new SingleStringFieldValueValidator('',$data, $this->provider))->validateAlphaNum(), "data: {$data}");
+                $this->assertTrue((new SingleFieldValueValidator('',$data, $this->provider))->validateAlphaNum(), "data: {$data}");
             }
             else{
-                $this->assertFalse((new SingleStringFieldValueValidator('',$data, $this->provider))->validateAlphaNum(), "data: {$data}");
+                $this->assertFalse((new SingleFieldValueValidator('',$data, $this->provider))->validateAlphaNum(), "data: {$data}");
             }
         }
     }
@@ -193,10 +193,10 @@ final class AbstractSingleStringFieldValueValidatorTest extends TestCase
             $data = $test['data'];
             $expected = $test['expected'];
             if ($expected){
-                $this->assertTrue((new SingleStringFieldValueValidator('',$data, $this->provider))->validateEmail(), "data: {$data}");
+                $this->assertTrue((new SingleFieldValueValidator('',$data, $this->provider))->validateEmail(), "data: {$data}");
             }
             else{
-                $this->assertFalse((new SingleStringFieldValueValidator('',$data, $this->provider))->validateEmail(), "data: {$data}");
+                $this->assertFalse((new SingleFieldValueValidator('',$data, $this->provider))->validateEmail(), "data: {$data}");
             }
         }
     }
@@ -217,10 +217,10 @@ final class AbstractSingleStringFieldValueValidatorTest extends TestCase
             $data = $test['data'];
             $expected = $test['expected'];
             if ($expected){
-                $this->assertTrue((new SingleStringFieldValueValidator('',$data, $this->provider))->validateURL(), "data: {$data}");
+                $this->assertTrue((new SingleFieldValueValidator('',$data, $this->provider))->validateURL(), "data: {$data}");
             }
             else{
-                $this->assertFalse((new SingleStringFieldValueValidator('',$data, $this->provider))->validateURL(), "data: {$data}");
+                $this->assertFalse((new SingleFieldValueValidator('',$data, $this->provider))->validateURL(), "data: {$data}");
             }
         }
     }
@@ -244,10 +244,10 @@ final class AbstractSingleStringFieldValueValidatorTest extends TestCase
             $max_length = $test['max_length'];
             $mb = $test['mb'];
             if ($expected){
-                $this->assertTrue((new SingleStringFieldValueValidator('',$data, $this->provider))->validateMaxStringLength($max_length, $mb), "data: {$data}");
+                $this->assertTrue((new SingleFieldValueValidator('',$data, $this->provider))->validateMaxStringLength($max_length, $mb), "data: {$data}");
             }
             else{
-                $this->assertFalse((new SingleStringFieldValueValidator('',$data, $this->provider))->validateMaxStringLength($max_length, $mb), "data: {$data}");
+                $this->assertFalse((new SingleFieldValueValidator('',$data, $this->provider))->validateMaxStringLength($max_length, $mb), "data: {$data}");
             }
         }
     }
@@ -271,10 +271,10 @@ final class AbstractSingleStringFieldValueValidatorTest extends TestCase
             $min_length = $test['min_length'];
             $mb = $test['mb'];
             if ($expected){
-                $this->assertTrue((new SingleStringFieldValueValidator('',$data, $this->provider))->validateMinStringLength($min_length, $mb), "data: {$data}");
+                $this->assertTrue((new SingleFieldValueValidator('',$data, $this->provider))->validateMinStringLength($min_length, $mb), "data: {$data}");
             }
             else{
-                $this->assertFalse((new SingleStringFieldValueValidator('',$data, $this->provider))->validateMinStringLength($min_length, $mb), "data: {$data}");
+                $this->assertFalse((new SingleFieldValueValidator('',$data, $this->provider))->validateMinStringLength($min_length, $mb), "data: {$data}");
             }
         }
     }
@@ -297,10 +297,10 @@ final class AbstractSingleStringFieldValueValidatorTest extends TestCase
             $expected = $test['expected'];
             $regex = $test['regex'];
             if ($expected){
-                $this->assertTrue((new SingleStringFieldValueValidator('',$data, $this->provider))->validateRegEx($regex), "data: {$data}");
+                $this->assertTrue((new SingleFieldValueValidator('',$data, $this->provider))->validateRegEx($regex), "data: {$data}");
             }
             else{
-                $this->assertFalse((new SingleStringFieldValueValidator('',$data, $this->provider))->validateRegEx($regex), "data: {$data}");
+                $this->assertFalse((new SingleFieldValueValidator('',$data, $this->provider))->validateRegEx($regex), "data: {$data}");
             }
         }
     }
@@ -324,10 +324,10 @@ final class AbstractSingleStringFieldValueValidatorTest extends TestCase
             $data = $test['data'];
             $expected = $test['expected'];
             if ($expected){
-                $this->assertTrue((new SingleStringFieldValueValidator('',$data, $this->provider))->validateInteger(), "data: {$data}");
+                $this->assertTrue((new SingleFieldValueValidator('',$data, $this->provider))->validateInteger(), "data: {$data}");
             }
             else{
-                $this->assertFalse((new SingleStringFieldValueValidator('',$data, $this->provider))->validateInteger(), "data: {$data}");
+                $this->assertFalse((new SingleFieldValueValidator('',$data, $this->provider))->validateInteger(), "data: {$data}");
             }
         }
     }
@@ -351,10 +351,10 @@ final class AbstractSingleStringFieldValueValidatorTest extends TestCase
             $expected = $test['expected'];
             $min = $test['min'];
             if ($expected){
-                $this->assertTrue((new SingleStringFieldValueValidator('',$data, $this->provider))->validateMinInteger($min), "data: {$data}");
+                $this->assertTrue((new SingleFieldValueValidator('',$data, $this->provider))->validateMinInteger($min), "data: {$data}");
             }
             else{
-                $this->assertFalse((new SingleStringFieldValueValidator('',$data, $this->provider))->validateMinInteger($min), "data: {$data}");
+                $this->assertFalse((new SingleFieldValueValidator('',$data, $this->provider))->validateMinInteger($min), "data: {$data}");
             }
         }
     }
@@ -379,10 +379,10 @@ final class AbstractSingleStringFieldValueValidatorTest extends TestCase
             $expected = $test['expected'];
             $max = $test['max'];
             if ($expected){
-                $this->assertTrue((new SingleStringFieldValueValidator('',$data, $this->provider))->validateMaxInteger($max), "data: {$data}");
+                $this->assertTrue((new SingleFieldValueValidator('',$data, $this->provider))->validateMaxInteger($max), "data: {$data}");
             }
             else{
-                $this->assertFalse((new SingleStringFieldValueValidator('',$data, $this->provider))->validateMaxInteger($max), "data: {$data}");
+                $this->assertFalse((new SingleFieldValueValidator('',$data, $this->provider))->validateMaxInteger($max), "data: {$data}");
             }
         }
     }
@@ -407,10 +407,10 @@ final class AbstractSingleStringFieldValueValidatorTest extends TestCase
             $expected = $test['expected'];
             $values = $test['values'];
             if ($expected){
-                $this->assertTrue((new SingleStringFieldValueValidator('',$data, $this->provider))->validateInArray($values), "data: {$data}");
+                $this->assertTrue((new SingleFieldValueValidator('',$data, $this->provider))->validateInArray($values), "data: {$data}");
             }
             else{
-                $this->assertFalse((new SingleStringFieldValueValidator('',$data, $this->provider))->validateInArray($values), "data: {$data}");
+                $this->assertFalse((new SingleFieldValueValidator('',$data, $this->provider))->validateInArray($values), "data: {$data}");
             }
         }
     }
@@ -431,24 +431,24 @@ final class AbstractSingleStringFieldValueValidatorTest extends TestCase
             $data = $test['data'];
             $expected = $test['expected'];
             if ($expected){
-                $this->assertTrue((new SingleStringFieldValueValidator('',$data, $this->provider))->validateJson(), "data: {$data}");
+                $this->assertTrue((new SingleFieldValueValidator('',$data, $this->provider))->validateJson(), "data: {$data}");
             }
             else{
-                $this->assertFalse((new SingleStringFieldValueValidator('',$data, $this->provider))->validateJson(), "data: {$data}");
+                $this->assertFalse((new SingleFieldValueValidator('',$data, $this->provider))->validateJson(), "data: {$data}");
             }
         }
     }
 
     public function testGetFieldDisplayName()
     {
-        $field_value = new SingleStringFieldValueValidator('age', '23', $this->provider);
+        $field_value = new SingleFieldValueValidator('age', '23', $this->provider);
 
         $this->assertEquals('years of age', $field_value->getFieldDisplayName('age'));
     }
 
     public function testMakeError()
     {
-        $field_value = new SingleStringFieldValueValidator('age', '23', $this->provider);
+        $field_value = new SingleFieldValueValidator('age', '23', $this->provider);
 
         $this->assertEquals(new ValidationError(
             -1, 'something is wrong!', 'years of age', 'age', '23'

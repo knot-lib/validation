@@ -6,7 +6,7 @@ namespace KnotLib\Validation\Util;
 use KnotLib\Validation\ErrorMessageProviderInterface;
 use KnotLib\Validation\ValidationError;
 
-abstract class AbstractSingleStringFieldValueValidator
+abstract class AbstractSingleFieldValueValidator
 {
     const ALPHABET = '/^[a-zA-Z]+$/';
     const LOWERCASE_ALPHA = '/^[a-z]+$/';
@@ -20,7 +20,7 @@ abstract class AbstractSingleStringFieldValueValidator
     /** @var string */
     private $field_code;
 
-    /** @var string */
+    /** @var mixed */
     private $field_value;
 
     /** @var ErrorMessageProviderInterface */
@@ -30,10 +30,10 @@ abstract class AbstractSingleStringFieldValueValidator
      * AbstractSingleStringFieldValueValidator constructor.
      *
      * @param string $field_code
-     * @param string $field_value
+     * @param mixed $field_value
      * @param ErrorMessageProviderInterface $provider
      */
-    public function __construct(string $field_code, string $field_value, ErrorMessageProviderInterface $provider)
+    public function __construct(string $field_code, $field_value, ErrorMessageProviderInterface $provider)
     {
         $this->field_code = $field_code;
         $this->field_value = $field_value;
