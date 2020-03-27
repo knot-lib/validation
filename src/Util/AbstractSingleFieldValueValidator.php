@@ -58,6 +58,14 @@ abstract class AbstractSingleFieldValueValidator
     }
 
     /**
+     * @return string
+     */
+    public function getFieldValue() : string
+    {
+        return $this->field_value;
+    }
+
+    /**
      * Make validation error
      *
      * @param int $error_code

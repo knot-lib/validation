@@ -36,6 +36,13 @@ final class AbstractSingleFieldValueValidatorTest extends TestCase
         $this->assertEquals('age', $field_value->getFieldCode());
     }
 
+    public function testGetFieldValue()
+    {
+        $field_value = new SingleFieldValueValidator('age', '23', $this->provider);
+
+        $this->assertEquals('23', $field_value->getFieldValue());
+    }
+
     public function testValidateEmpty()
     {
         $tests = [
