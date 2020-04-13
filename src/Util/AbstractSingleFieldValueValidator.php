@@ -307,4 +307,14 @@ abstract class AbstractSingleFieldValueValidator
     {
         return  $this->validateString() && preg_match(self::REGEX_SHA1_HASH, $this->field_value) === 1;
     }
+
+    /**
+     * Validate date string
+     *
+     * @return bool
+     */
+    public function validateDateString() : bool
+    {
+        return  $this->validateString() && strtotime($this->field_value) !== false;
+    }
 }

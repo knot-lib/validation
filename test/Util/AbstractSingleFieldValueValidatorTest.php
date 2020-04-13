@@ -538,5 +538,34 @@ final class AbstractSingleFieldValueValidatorTest extends TestCase
             }
         }
     }
+    public function testValidateDateString()
+    {
+        $tests = [
+            [ 'data' => '', 'expected' => false, ],
+            [ 'data' => [], 'expected' => false, ],
+            [ 'data' => ']', 'expected' => false, ],
+            [ 'data' => 2, 'expected' => false, ],
+            [ 'data' => -0.1, 'expected' => false, ],
+            [ 'data' => 'Hello, World!', 'expected' => false, ],
+            [ 'data' => null, 'expected' => false, ],
+            [ 'data' => '2020-04-13', 'expected' => true, ],
+            [ 'data' => '2020/04/13', 'expected' => true, ],
+            [ 'data' => '2020-04-13 12:11:11', 'expected' => true, ],
+            [ 'data' => '2020-04-13 12:11', 'expected' => true, ],
+            [ 'data' => 'July 1, 2000', 'expected' => true, ],
+            [ 'data' => 'e52a7284d144ad46a7bab34048fcc87fbfc38f7g', 'expected' => false, ],
+        ];
+
+        foreach($tests as $test){
+            $data = $test['data'];
+            $expected = $test['expected'];
+            if ($expected){
+                $this->assertTrue((new SingleFieldValueValidator('',$data, $this->provider))->validateDateString(), 'data:' . print_r($data, true));
+            }
+            else{
+                $this->assertFalse((new SingleFieldValueValidator('',$data, $this->provider))->validateDateString(), 'data:' . print_r($data, true));
+            }
+        }
+    }
 
 }
