@@ -29,6 +29,22 @@ final class AbstractSingleFieldValueValidatorTest extends TestCase
         };
     }
 
+    public function testGetFieldDisplayName()
+    {
+        $field_value = new SingleFieldValueValidator('age', '23', $this->provider);
+
+        $this->assertEquals('years of age', $field_value->getFieldDisplayName('age'));
+    }
+
+    public function testMakeError()
+    {
+        $field_value = new SingleFieldValueValidator('age', '23', $this->provider);
+
+        $this->assertEquals(new ValidationError(
+            -1, 'something is wrong!', 'years of age', 'age', '23'
+        ), $field_value->makeError(-1));
+    }
+
     public function testGetFieldCode()
     {
         $field_value = new SingleFieldValueValidator('age', '23', $this->provider);
@@ -493,20 +509,34 @@ final class AbstractSingleFieldValueValidatorTest extends TestCase
             }
         }
     }
-
-    public function testGetFieldDisplayName()
+    public function testValidateSha1Hash()
     {
-        $field_value = new SingleFieldValueValidator('age', '23', $this->provider);
+        $tests = [
+            [ 'data' => '', 'expected' => false, ],
+            [ 'data' => [], 'expected' => false, ],
+            [ 'data' => ']', 'expected' => false, ],
+            [ 'data' => 2, 'expected' => false, ],
+            [ 'data' => -0.1, 'expected' => false, ],
+            [ 'data' => 'Hello, World!', 'expected' => false, ],
+            [ 'data' => null, 'expected' => false, ],
+            [ 'data' => 'e52a7284d144ad46a7bab34048fcc87fbfc38f76', 'expected' => true, ],
+            [ 'data' => '830774887C4889E95607FD4279A1C4E6A2E62982', 'expected' => true, ],
+            [ 'data' => 'e52a7284d144ad46a7bab34048fcc87fbfc38f76b', 'expected' => false, ],
+            [ 'data' => 'e52a7284d144ad46a7bab34048fcc87fbfc38f7', 'expected' => false, ],
+            [ 'data' => 'e52a7284d144ad46a7bab34048fcc87fbfc38f7_', 'expected' => false, ],
+            [ 'data' => 'e52a7284d144ad46a7bab34048fcc87fbfc38f7g', 'expected' => false, ],
+        ];
 
-        $this->assertEquals('years of age', $field_value->getFieldDisplayName('age'));
+        foreach($tests as $test){
+            $data = $test['data'];
+            $expected = $test['expected'];
+            if ($expected){
+                $this->assertTrue((new SingleFieldValueValidator('',$data, $this->provider))->validateSha1Hash(), 'data:' . print_r($data, true));
+            }
+            else{
+                $this->assertFalse((new SingleFieldValueValidator('',$data, $this->provider))->validateSha1Hash(), 'data:' . print_r($data, true));
+            }
+        }
     }
 
-    public function testMakeError()
-    {
-        $field_value = new SingleFieldValueValidator('age', '23', $this->provider);
-
-        $this->assertEquals(new ValidationError(
-            -1, 'something is wrong!', 'years of age', 'age', '23'
-        ), $field_value->makeError(-1));
-    }
 }

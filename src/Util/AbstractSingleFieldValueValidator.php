@@ -8,14 +8,15 @@ use KnotLib\Validation\ValidationError;
 
 abstract class AbstractSingleFieldValueValidator
 {
-    const ALPHABET = '/^[a-zA-Z]+$/';
-    const LOWERCASE_ALPHA = '/^[a-z]+$/';
-    const UPPERCASE_ALPHA = '/^[A-Z]+$/';
-    const NUMBER = '/^[0-9]+$/';
-    const ALPHANUM = '/^[0-9a-zA-Z]+$/';
-    const INTVAL = '/^[+-]?[0-9]+$/';
+    const REGEX_ALPHABET = '/^[a-zA-Z]+$/';
+    const REGEX_LOWERCASE_ALPHA = '/^[a-z]+$/';
+    const REGEX_UPPERCASE_ALPHA = '/^[A-Z]+$/';
+    const REGEX_NUMBER = '/^[0-9]+$/';
+    const REGEX_ALPHANUM = '/^[0-9a-zA-Z]+$/';
+    const REGEX_INTVAL = '/^[+-]?[0-9]+$/';
     const REGEX_EMAIL = '/^[a-zA-Z0-9.!#$%&\'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/';
     const REGEX_URL = '/^(http|https|ftp):\/\/([A-Z0-9][A-Z0-9_-]*(?:\.[A-Z0-9][A-Z0-9_-]*)+):?(\d+)?\/?/i';
+    const REGEX_SHA1_HASH = '/^[0-9a-fA-F]{40}$/';
 
     /** @var string */
     private $field_code;
@@ -110,7 +111,7 @@ abstract class AbstractSingleFieldValueValidator
      */
     public function validateAlphabet() : bool
     {
-        return  $this->validateString() && preg_match(self::ALPHABET, $this->field_value) === 1;
+        return  $this->validateString() && preg_match(self::REGEX_ALPHABET, $this->field_value) === 1;
     }
 
     /**
@@ -120,7 +121,7 @@ abstract class AbstractSingleFieldValueValidator
      */
     public function validateLowerCaseAlpha() : bool
     {
-        return  $this->validateString() && preg_match(self::LOWERCASE_ALPHA, $this->field_value) === 1;
+        return  $this->validateString() && preg_match(self::REGEX_LOWERCASE_ALPHA, $this->field_value) === 1;
     }
 
     /**
@@ -130,7 +131,7 @@ abstract class AbstractSingleFieldValueValidator
      */
     public function validateUpperCaseAlpha() : bool
     {
-        return  $this->validateString() && preg_match(self::UPPERCASE_ALPHA, $this->field_value) === 1;
+        return  $this->validateString() && preg_match(self::REGEX_UPPERCASE_ALPHA, $this->field_value) === 1;
     }
 
     /**
@@ -140,7 +141,7 @@ abstract class AbstractSingleFieldValueValidator
      */
     public function validateNumber() : bool
     {
-        return $this->validateInteger() || $this->validateString() && preg_match(self::NUMBER, $this->field_value) === 1;
+        return $this->validateInteger() || $this->validateString() && preg_match(self::REGEX_NUMBER, $this->field_value) === 1;
     }
 
     /**
@@ -150,7 +151,7 @@ abstract class AbstractSingleFieldValueValidator
      */
     public function validateAlphaNum() : bool
     {
-        return $this->validateString() && preg_match(self::ALPHANUM, $this->field_value) === 1;
+        return $this->validateString() && preg_match(self::REGEX_ALPHANUM, $this->field_value) === 1;
     }
 
     /**
@@ -224,7 +225,7 @@ abstract class AbstractSingleFieldValueValidator
      */
     public function validateInteger() : bool
     {
-        return is_int($this->field_value) || $this->validateString() && preg_match(self::INTVAL, $this->field_value) === 1;
+        return is_int($this->field_value) || $this->validateString() && preg_match(self::REGEX_INTVAL, $this->field_value) === 1;
     }
 
     /**
@@ -295,5 +296,15 @@ abstract class AbstractSingleFieldValueValidator
     public function validateString() : bool
     {
         return is_string($this->field_value);
+    }
+
+    /**
+     * Validate sha1 hash
+     *
+     * @return bool
+     */
+    public function validateSha1Hash() : bool
+    {
+        return  $this->validateString() && preg_match(self::REGEX_SHA1_HASH, $this->field_value) === 1;
     }
 }
