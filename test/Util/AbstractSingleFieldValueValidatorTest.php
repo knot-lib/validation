@@ -1,4 +1,6 @@
-<?php /** @noinspection DuplicatedCode */
+<?php /** @noinspection HttpUrlsUsage */
+/** @noinspection PhpUnnecessaryCurlyVarSyntaxInspection */
+/** @noinspection DuplicatedCode */
 declare(strict_types=1);
 
 namespace KnotLib\Validation\Test;
@@ -12,7 +14,7 @@ final class AbstractSingleFieldValueValidatorTest extends TestCase
     /** @var ErrorMessageProviderInterface */
     private $provider;
 
-    public function setUp()
+    public function setUp() : void
     {
         parent::setUp();
 
@@ -244,6 +246,33 @@ final class AbstractSingleFieldValueValidatorTest extends TestCase
             }
             else{
                 $this->assertFalse((new SingleFieldValueValidator('',$data, $this->provider))->validateURL(), "data: {$data}");
+            }
+        }
+    }
+    public function testValidateStringLength()
+    {
+        $tests = [
+            [ 'data' => '11PM', 'expected' => true, 'length' => 4, 'mb' => false ],
+            [ 'data' => 'stk2k', 'expected' => false, 'length' => 4, 'mb' => false ],
+            [ 'data' => 'Falao', 'expected' => true, 'length' => 5, 'mb' => false ],
+            [ 'data' => '3.14', 'expected' => true, 'length' => 4, 'mb' => true ],
+            [ 'data' => 'おはよう', 'expected' => true, 'length' => 4, 'mb' => true ],
+            [ 'data' => 'おはよう！', 'expected' => false, 'length' => 4, 'mb' => true ],
+            [ 'data' => '123', 'expected' => true, 'length' => 3, 'mb' => false ],
+            [ 'data' => 'info@example.com', 'expected' => true, 'length' => 16, 'mb' => false ],
+            [ 'data' => 'http://example.com', 'expected' => true, 'length' => 18, 'mb' => false ],
+        ];
+
+        foreach($tests as $test){
+            $data = $test['data'];
+            $expected = $test['expected'];
+            $length = $test['length'];
+            $mb = $test['mb'];
+            if ($expected){
+                $this->assertTrue((new SingleFieldValueValidator('',$data, $this->provider))->validateStringLength($length, $mb), "data: {$data}");
+            }
+            else{
+                $this->assertFalse((new SingleFieldValueValidator('',$data, $this->provider))->validateStringLength($length, $mb), "data: {$data}");
             }
         }
     }

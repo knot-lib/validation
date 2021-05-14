@@ -175,6 +175,22 @@ abstract class AbstractSingleFieldValueValidator
     }
 
     /**
+     * Validate string length
+     *
+     * @param int $length
+     * @param bool $multibyte
+     *
+     * @return bool
+     */
+    public function validateStringLength(int $length, bool $multibyte = true) : bool
+    {
+        if (!$this->validateString()){
+            return false;
+        }
+        return $multibyte ? (mb_strlen($this->field_value) === $length) : (strlen($this->field_value) === $length);
+    }
+
+    /**
      * Validate max string length
      *
      * @param int $max_length
