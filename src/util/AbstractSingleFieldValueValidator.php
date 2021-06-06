@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace KnotLib\Validation\Util;
+namespace knotlib\validation\util;
 
-use KnotLib\Validation\ErrorMessageProviderInterface;
-use KnotLib\Validation\ValidationError;
+use knotlib\validation\ErrorMessageProviderInterface;
+use knotlib\validation\ValidationError;
 
 abstract class AbstractSingleFieldValueValidator
 {

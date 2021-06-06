@@ -20,13 +20,13 @@
   },
   "autoload": {
     "psr-4": {
-      "KnotLib\\Validation\\": "src/"
+      "knotlib\\validation\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "KnotLib\\Validation\\Test\\": "test/include/",
-      "KnotLib\\Validation\\Demo\\": "demo/include/"
+      "knotlib\\validation\\test\\": "test/",
+      "knotlib\\validation\\test\\classes\\": "test/classes/"
     }
   }
 }

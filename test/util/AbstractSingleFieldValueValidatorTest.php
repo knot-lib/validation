@@ -3,11 +3,13 @@
 /** @noinspection DuplicatedCode */
 declare(strict_types=1);
 
-namespace KnotLib\Validation\Test;
+namespace knotlib\validation\test\util;
 
-use KnotLib\Validation\ErrorMessageProviderInterface;
-use KnotLib\Validation\ValidationError;
 use PHPUnit\Framework\TestCase;
+
+use knotlib\validation\ErrorMessageProviderInterface;
+use knotlib\validation\ValidationError;
+use knotlib\validation\test\classes\SingleFieldValueValidator;
 
 final class AbstractSingleFieldValueValidatorTest extends TestCase
 {

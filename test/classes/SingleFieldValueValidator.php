@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace KnotLib\Validation\Test;
+namespace knotlib\validation\test\classes;
 
-use KnotLib\Validation\Util\AbstractSingleFieldValueValidator;
+use knotlib\validation\util\AbstractSingleFieldValueValidator;
 
 final class SingleFieldValueValidator extends AbstractSingleFieldValueValidator
 {

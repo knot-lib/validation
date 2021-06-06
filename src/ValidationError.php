@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace KnotLib\Validation;
+namespace knotlib\validation;
 
 use JsonSerializable;
 
